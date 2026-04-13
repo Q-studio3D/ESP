@@ -3,44 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QS3D Professional ESP Tool</title>
+    <title>QS3D Pro Installer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="https://unpkg.com/esp-connect@latest/dist/esp-connect/esp-connect.esm.js"></script>
-    
+    <script type="module" src="https://unpkg.com/esp-connect@1.1.11-preview/dist/esp-connect/esp-connect.esm.js"></script>
     <style>
-        body { background-color: #000; color: white; margin: 0; font-family: -apple-system, system-ui, sans-serif; }
-        .nav-link { color: #86868b; font-size: 13px; transition: color 0.3s; cursor: pointer; text-decoration: none; }
-        .nav-link:hover { color: #fff; }
-        /* Căn chỉnh Dashboard chiếm toàn bộ màn hình phía dưới thanh nav */
-        esp-connect { height: calc(100vh - 44px); width: 100%; display: block; }
+        body { background-color: #000; color: white; margin: 0; font-family: sans-serif; height: 100vh; overflow: hidden; }
+        nav { height: 44px; display: flex; align-items: center; background: #161617; border-bottom: 1px solid #333; padding: 0 20px; }
+        .nav-item { color: #86868b; margin-right: 20px; font-size: 13px; }
+        /* Quan trọng: Để Dashboard chiếm hết phần còn lại */
+        esp-connect { height: calc(100vh - 44px); width: 100%; }
     </style>
 </head>
 <body>
-
-    <nav class="bg-[#161617]/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
-        <div class="max-w-[1400px] mx-auto flex items-center h-[44px] px-6 justify-between">
-            <div class="flex items-center space-x-10">
-                <a href="/" class="flex items-center">
-                    <img src="QS3D.png" class="h-5 w-auto" alt="Logo">
-                    <span class="ml-2 font-semibold text-sm">Installer</span>
-                </a>
-                <div class="hidden md:flex space-x-8">
-                    <a class="nav-link">Device Info</a>
-                    <a class="nav-link">Flash Tools</a>
-                    <a class="nav-link">Serial Monitor</a>
-                    <a class="nav-link">Partitions</a>
-                </div>
-            </div>
-            <div class="flex space-x-8">
-                <a href="https://t.me/your_group" class="nav-link">Support</a>
-                <a href="#" class="nav-link">Drivers</a>
-            </div>
+    <nav>
+        <img src="QS3D.png" style="height: 20px; margin-right: 10px;">
+        <span class="nav-item">QS3D Installer</span>
+        <div class="hidden md:flex">
+            <span class="nav-item">Device Info</span>
+            <span class="nav-item">Flash Tools</span>
+            <span class="nav-item">Serial Monitor</span>
         </div>
     </nav>
 
-    <main>
-        <esp-connect></esp-connect>
-    </main>
+    <esp-connect></esp-connect>
 
 </body>
 </html>

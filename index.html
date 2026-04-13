@@ -1,163 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QS3D - ESP Installer</title>
+    <title>QS3D Professional ESP Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <script>
-        tailwind.config = { darkMode: 'class' }
-    </script>
-
+    <script type="module" src="https://unpkg.com/esp-connect@latest/dist/esp-connect/esp-connect.esm.js"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #000000; }
-        
-        .apple-nav {
-            background: rgba(22, 22, 23, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link {
-            font-size: 12px;
-            color: #f5f5f7;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        .nav-link:hover { opacity: 1; }
-
-        esp-web-install-button {
-            --installer-button-background-color: #0071e3;
-            --installer-button-text-color: #ffffff;
-            --installer-button-border-radius: 980px;
-        }
-
-        .hero-card {
-            background: #1d1d1f;
-            border-radius: 30px;
-            border: 1px solid #424245;
-        }
+        body { background-color: #000; color: white; margin: 0; font-family: -apple-system, system-ui, sans-serif; }
+        .nav-link { color: #86868b; font-size: 13px; transition: color 0.3s; cursor: pointer; text-decoration: none; }
+        .nav-link:hover { color: #fff; }
+        /* Căn chỉnh Dashboard chiếm toàn bộ màn hình phía dưới thanh nav */
+        esp-connect { height: calc(100vh - 44px); width: 100%; display: block; }
     </style>
 </head>
-<body class="text-[#f5f5f7] min-h-screen flex flex-col">
+<body>
 
-    <nav class="apple-nav fixed top-0 w-full z-50">
-        <div class="max-w-[1200px] mx-auto flex items-center h-[44px] px-6">
-            
-            <div class="flex-none">
-                <a href="#" class="flex items-center">
-                    <img src="QS3D.png" alt="QS3D" class="h-[24px] w-auto object-contain">
-                    <span class="ml-3 text-sm font-semibold tracking-tight hidden sm:block">Installer</span>
+    <nav class="bg-[#161617]/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-[1400px] mx-auto flex items-center h-[44px] px-6 justify-between">
+            <div class="flex items-center space-x-10">
+                <a href="/" class="flex items-center">
+                    <img src="QS3D.png" class="h-5 w-auto" alt="Logo">
+                    <span class="ml-2 font-semibold text-sm">Installer</span>
                 </a>
+                <div class="hidden md:flex space-x-8">
+                    <a class="nav-link">Device Info</a>
+                    <a class="nav-link">Flash Tools</a>
+                    <a class="nav-link">Serial Monitor</a>
+                    <a class="nav-link">Partitions</a>
+                </div>
             </div>
-
-            <div class="flex-1 flex justify-center items-center space-x-8 hidden md:flex">
-                <a href="#" class="nav-link">Store</a>
-                <a href="https://github.com/nodemcu/nodemcu-devkit-v1.0/raw/master/Drivers/CH341SER.zip" class="nav-link">Drivers</a>
-                <a href="#" class="nav-link">Guides</a>
-                <a href="https://t.me/your-group" class="nav-link">Support</a>
-            </div>
-
-            <div class="flex-none flex items-center space-x-4">
-                <button onclick="toggleTheme()" class="nav-link">
-                    <i id="theme-icon" class="fas fa-moon"></i>
-                </button>
+            <div class="flex space-x-8">
+                <a href="https://t.me/your_group" class="nav-link">Support</a>
+                <a href="#" class="nav-link">Drivers</a>
             </div>
         </div>
     </nav>
 
-    <main class="flex-1 pt-[100px] px-6 flex flex-col items-center">
-        <div class="text-center mt-12 mb-16">
-            <h1 class="text-5xl md:text-7xl font-semibold tracking-tight mb-4">Flash with Confidence.</h1>
-            <p class="text-xl md:text-2xl text-[#86868b] max-w-2xl mx-auto">Professional firmware tools for your ESP32 & ESP8266 devices.</p>
-        </div>
-
-        <div class="hero-card w-full max-w-4xl p-10 flex flex-col md:flex-row items-center justify-between shadow-2xl">
-            <div class="text-left mb-8 md:mb-0">
-                <h2 class="text-3xl font-semibold mb-2">Tasmota English</h2>
-                <p class="text-[#86868b] mb-6">Choose your firmware edition below:</p>
-                
-                <select id="fw-select" class="bg-[#2d2d2f] text-white border-none rounded-lg p-2.5 text-sm outline-none focus:ring-1 ring-blue-500 cursor-pointer">
-                    <option value="manifest.json">Tasmota English (Standard)</option>
-                    <option value="manifest_wled.json">WLED Controller</option>
-                    <option value="manifest_erase.json">Erase Flash</option>
-                </select>
-            </div>
-
-            <div class="flex flex-col items-center gap-4">
-                <p id="fw-desc" class="text-[12px] uppercase tracking-widest text-[#0071e3] font-bold">Ready to Connect</p>
-                <esp-web-install-button id="installer" manifest="manifest.json"></esp-web-install-button>
-            </div>
-        </div>
-
-        <footer class="mt-24 mb-12 text-center text-[#86868b] text-[12px]">
-            <p>Copyright © 2026 QS3D Team. All rights reserved.</p>
-        </footer>
+    <main>
+        <esp-connect></esp-connect>
     </main>
 
-    <script>
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            const icon = document.getElementById('theme-icon');
-            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-            localStorage.theme = isDark ? 'dark' : 'light';
-        }
-
-        const select = document.getElementById('fw-select');
-        const installer = document.getElementById('installer');
-        const desc = document.getElementById('fw-desc');
-
-        select.addEventListener('change', (e) => {
-            installer.setAttribute('manifest', './' + e.target.value);
-            desc.innerText = "Target: " + e.target.options[e.target.selectedIndex].text;
-        });
-
-        // MODULE: SUCCESS ALERT
-        installer.addEventListener('install-success', () => {
-            Swal.fire({
-                title: 'SUCCESSFUL',
-                text: 'Your device has been updated perfectly.',
-                icon: 'success',
-                confirmButtonColor: '#0071e3',
-                background: '#1d1d1f',
-                color: '#fff'
-            });
-        });
-
-        if (localStorage.theme === 'light') {
-            document.documentElement.classList.remove('dark');
-            document.getElementById('theme-icon').className = 'fas fa-moon';
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <title>QS3D - ESP Expert Tool</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
-    <script type="module" src="https://unpkg.com/esp-connect@latest/dist/esp-connect/esp-connect.esm.js"></script>
-</head>
-<body class="bg-black text-white font-sans">
-    <div class="max-w-6xl mx-auto p-10">
-        <h1 class="text-4xl font-bold mb-10 text-center text-blue-500">QS3D Professional Installer</h1>
-        
-        <div class="bg-zinc-900 p-8 rounded-3xl border border-zinc-800 mb-10 text-center">
-            <h2 class="text-2xl mb-4">Quick Flash</h2>
-            <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
-            <p class="text-gray-500 mt-4 text-sm">Note: Use Chrome or Edge on PC</p>
-        </div>
-
-        <div class="bg-zinc-900 rounded-3xl border border-zinc-800 overflow-hidden" style="height: 600px;">
-            <esp-connect></esp-connect>
-        </div>
-    </div>
 </body>
 </html>

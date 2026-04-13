@@ -136,3 +136,28 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>QS3D - ESP Expert Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+    <script type="module" src="https://unpkg.com/esp-connect@latest/dist/esp-connect/esp-connect.esm.js"></script>
+</head>
+<body class="bg-black text-white font-sans">
+    <div class="max-w-6xl mx-auto p-10">
+        <h1 class="text-4xl font-bold mb-10 text-center text-blue-500">QS3D Professional Installer</h1>
+        
+        <div class="bg-zinc-900 p-8 rounded-3xl border border-zinc-800 mb-10 text-center">
+            <h2 class="text-2xl mb-4">Quick Flash</h2>
+            <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
+            <p class="text-gray-500 mt-4 text-sm">Note: Use Chrome or Edge on PC</p>
+        </div>
+
+        <div class="bg-zinc-900 rounded-3xl border border-zinc-800 overflow-hidden" style="height: 600px;">
+            <esp-connect></esp-connect>
+        </div>
+    </div>
+</body>
+</html>
